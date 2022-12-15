@@ -1,21 +1,21 @@
-const db = require("../models");
-const config = require("../config/auth.config");
+import db from "../models";
+import config from "../config/auth.config";
 const User = db.user;
 const mc_tracing = db.mc_tracing;
 const mc_allies = db.mc_allies;
 const mc_awards = db.mc_awards;
-const { Op } = require("sequelize");
+import { Op } from "sequelize";
 
-exports.allAccess = (req, res) => {
+export function allAccess(req, res) {
     res.status(200).send("Public Content.");
-};
+}
 
 /**
  * Get one user function
  * @param {*} req 
  * @param {*} res 
  */
-exports.getuser = (req, res) => {
+export function getuser(req, res) {
     let token = req.headers["x-access-token"];
     let tokenDecode = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
 
@@ -43,7 +43,7 @@ exports.getuser = (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-exports.getuserTracing = (req, res) => {
+export function getuserTracing(req, res) {
     let token = req.headers["x-access-token"];
     let tokenDecode = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
 
@@ -66,39 +66,11 @@ exports.getuserTracing = (req, res) => {
 }
 
 /**
- * Get one user function
- * @param {*} req 
- * @param {*} res 
- */
-exports.getuser = (req, res) => {
-    let token = req.headers["x-access-token"];
-    let tokenDecode = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
-
-    User.findOne({
-        where: {
-            idmask: tokenDecode.idmask
-        }
-    }).then(user => {
-        if (!user) {
-            return res.status(404).send({ message: "User Not found." });
-        }
-        res.status(200).send({
-            document: user.document,
-            birthdate: user.birthdate,
-            goal_amount_1: user.goal_amount_1,
-            award_1: user.award_1,
-        });
-    }).catch(err => {
-        res.status(500).send({ message: err.message });
-    });
-}
-
-/**
  * Get User tracing function
  * @param {*} req
  * @param {*} res
  */
-exports.getAllies = async (req, res) => {
+export async function getAllies(req, res) {
 
     const allies = await mc_allies.findAll()
     const alliesDAta = JSON.stringify(allies, null, 2)
@@ -111,7 +83,7 @@ exports.getAllies = async (req, res) => {
  * @param {*} req 
  * @param {*} res 
  */
-exports.getAwards = (req, res) => {
+export function getAwards(req, res) {
     let token = req.headers["x-access-token"];
     let tokenDecode = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
 

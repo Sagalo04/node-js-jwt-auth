@@ -1,4 +1,4 @@
-module.exports = (sequelize, Sequelize) => {
+export default (sequelize, Sequelize) => {
     const Mc_awards = sequelize.define("mc_awards", {
         name: {
             type: Sequelize.STRING(50),

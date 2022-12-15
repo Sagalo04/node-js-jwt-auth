@@ -1,4 +1,4 @@
-module.exports = (sequelize, Sequelize) => {
+export default (sequelize, Sequelize) => {
     const Mc_tracing = sequelize.define("mc_tracing", {
         idmask: {
             type: Sequelize.STRING(50),

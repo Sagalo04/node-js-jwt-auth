@@ -1,4 +1,4 @@
-module.exports = (sequelize, Sequelize) => {
+export default (sequelize, Sequelize) => {
     const Mc_codes = sequelize.define("mc_codes", {
         idmask: {
             type: Sequelize.STRING(50),

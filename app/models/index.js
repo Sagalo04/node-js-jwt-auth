@@ -1,22 +1,29 @@
-const config = require("../config/db.config.js")
+import { DB, USER, PASSWORD, HOST, dialect as _dialect, pool as _pool } from "../config/db.config.js";
+import user from "./user.model"
+import mc_login from "./mc_login.model"
+import mc_tracing from "./mc_tracing.model"
+import mc_codes from "./mc_codes.model"
+import mc_awards from "./mc_awards.model"
+import mc_allies from "./mc_allies.model"
 
-const Sequelize = require("sequelize")
+import Sequelize from "sequelize";
+
 const sequelize = new Sequelize(
-    config.DB,
-    config.USER,
-    config.PASSWORD,
+    DB,
+    USER,
+    PASSWORD,
     {
-        host: config.HOST,
-        dialect: config.dialect,
+        host: HOST,
+        dialect: _dialect,
         operatorAliases: false,
         define: {
             timestamps: false
         },
         pool: {
-            max: config.pool.max,
-            min: config.pool.min,
-            acquire: config.pool.acquire,
-            idle: config.pool.idle
+            max: _pool.max,
+            min: _pool.min,
+            acquire: _pool.acquire,
+            idle: _pool.idle
         }
     }
 )
@@ -26,11 +33,11 @@ const db = {}
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("./user.model.js")(sequelize, Sequelize)
-db.mc_login = require("./mc_login.model.js")(sequelize, Sequelize)
-db.mc_tracing = require("./mc_tracing.model.js")(sequelize, Sequelize)
-db.mc_codes = require("./mc_codes.model.js")(sequelize, Sequelize)
-db.mc_allies = require("./mc_allies.model.js")(sequelize, Sequelize)
-db.mc_awards = require("./mc_awards.model.js")(sequelize, Sequelize)
+db.user = user(sequelize, Sequelize)
+db.mc_login = mc_login(sequelize, Sequelize)
+db.mc_tracing = mc_tracing(sequelize, Sequelize)
+db.mc_codes = mc_codes(sequelize, Sequelize)
+db.mc_allies = mc_allies(sequelize, Sequelize)
+db.mc_awards = mc_awards(sequelize, Sequelize)
 
-module.exports = db
+export default db

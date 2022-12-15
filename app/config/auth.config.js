@@ -1,3 +1,1 @@
-module.exports = {
-    secret: "isobar-mastercard-secret"
-}
+export const secret = "isobar-mastercard-secret";

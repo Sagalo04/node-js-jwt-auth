@@ -1,21 +1,20 @@
-const db = require("../models");
-const config = require("../config/auth.config");
+import db from "../models";
+import { secret } from "../config/auth.config";
+import { sign } from "jsonwebtoken";
+import { hashSync } from "bcryptjs";
 const User = db.user;
 const mc_codes = db.mc_codes;
 const mc_login = db.mc_login;
-const Role = db.role;
 
 const Op = db.Sequelize.Op;
 
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
 
-exports.signup = (req, res) => {
+export function signup(req, res) {
     // Save User to Database
     User.create({
         username: req.body.username,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
+        password: hashSync(req.body.password, 8)
     })
         .then(user => {
             if (req.body.roles) {
@@ -40,14 +39,14 @@ exports.signup = (req, res) => {
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
-};
+}
 
 /**
  * Function to signin finding and validating document and birthdate
  * @param {*} req 
  * @param {*} res 
  */
-exports.signin = (req, res) => {
+export function signin(req, res) {
     User.findOne({
         where: {
             document: req.body.document
@@ -89,7 +88,7 @@ exports.signin = (req, res) => {
             ip: ips[0].trim()
         })
 
-        var token = jwt.sign({ idmask: user.idmask }, config.secret, {
+        var token = sign({ idmask: user.idmask }, secret, {
             expiresIn: 86400 // 24 hours
         });
 
@@ -105,14 +104,14 @@ exports.signin = (req, res) => {
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
-};
+}
 
 /**
  * Function to signin finding and validating a code hash
  * @param {*} req 
  * @param {*} res 
  */
-exports.signinSHA = (req, res) => {
+export function signinSHA(req, res) {
     mc_codes.findOne({
         where: {
             code_hash: req.body.code_hash
@@ -143,7 +142,7 @@ exports.signinSHA = (req, res) => {
             ip: ips[0].trim()
         })
 
-        var token = jwt.sign({ idmask: user.idmask }, config.secret, {
+        var token = sign({ idmask: user.idmask }, secret, {
             expiresIn: 86400 // 24 hours
         });
 
@@ -155,4 +154,4 @@ exports.signinSHA = (req, res) => {
     }).catch(err => {
         res.status(500).send({ message: err.message });
     });
-};
+}

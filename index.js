@@ -1,5 +1,6 @@
-const express = require("express")
-const cors = require("cors")
+import express from "express";
+import cors from "cors";
+import db from "./app/models";
 
 const app = express()
 
@@ -15,8 +16,6 @@ app.use(express.json())
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-const db = require("./app/models")
-
 // db.sequelize.sync({ force: true }).then(() => {
 //     console.log('Drop and Resync Db')
 //     initial()
@@ -28,10 +27,10 @@ db.sequelize.sync()
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to my first node application" })
 })
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
+require('./app/routes/auth.routes').default(app);
+require('./app/routes/user.routes').default(app);
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
