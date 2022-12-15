@@ -9,5 +9,3 @@ export const pool = {
     acquire: 30000,
     idle: 10000
 };
-
-// -- UAT mysql --host=mastercard-uat.cjlezcao9fxm.us-east-1.rds.amazonaws.com --user=adminuat -p password: ChefIsobar2021.
