@@ -5,6 +5,7 @@ import mc_tracing from "./mc_tracing.model"
 import mc_codes from "./mc_codes.model"
 import mc_awards from "./mc_awards.model"
 import mc_allies from "./mc_allies.model"
+import mc_redemptions from "./mc_redemptions.js";
 
 import Sequelize from "sequelize";
 
@@ -39,5 +40,6 @@ db.mc_tracing = mc_tracing(sequelize, Sequelize)
 db.mc_codes = mc_codes(sequelize, Sequelize)
 db.mc_allies = mc_allies(sequelize, Sequelize)
 db.mc_awards = mc_awards(sequelize, Sequelize)
+db.mc_redemptions = mc_redemptions(sequelize, Sequelize)
 
 export default db

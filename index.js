@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
 import db from "./app/models";
+const dotenv = require('dotenv');
 
 const app = express()
+dotenv.config();
 
 var corsOptions = {
     origin: "http://localhost:8081"
@@ -29,8 +31,9 @@ app.get("/", (req, res) => {
 })
 require('./app/routes/auth.routes').default(app);
 require('./app/routes/user.routes').default(app);
+require('./app/routes/redemptions.routes').default(app);
 // set port, listen for requests
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
